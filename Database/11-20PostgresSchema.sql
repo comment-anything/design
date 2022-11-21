@@ -67,6 +67,7 @@ CREATE TABLE "AdminAssignments" (
   "id" bigserial PRIMARY KEY,
   "assigned_to" bigint NOT NULL,
   "assigned_by" bigint NOT NULL,
+  "assigned_at" timestamptz NOT NULL DEFAULT (now()),
   "is_deactivation" boolean DEFAULT false
 );
 
@@ -74,7 +75,8 @@ CREATE TABLE "Logs" (
   "id" bigserial PRIMARY KEY,
   "user_id" bigint,
   "ip" varchar,
-  "url" varchar
+  "url" varchar,
+  "at_time" timestamptz NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "CommentModerationActions" (
@@ -104,10 +106,10 @@ CREATE TABLE "CommentReports" (
   "comment" bigint NOT NULL,
   "reason" varchar,
   "action_taken" boolean,
-  "time_created" timestamptz
+  "time_created" timestamptz NOT NULL DEFAULT (now())
 );
 
-CREATE TABLE "ValidationCodes" (
+CREATE TABLE "VerificationCodes" (
   "id" bigserial PRIMARY KEY,
   "user_id" bigint,
   "verify_code" varchar,
@@ -198,7 +200,7 @@ ALTER TABLE "CommentReports" ADD FOREIGN KEY ("reporting_user") REFERENCES "User
 
 ALTER TABLE "CommentReports" ADD FOREIGN KEY ("comment") REFERENCES "Comments" ("id");
 
-ALTER TABLE "ValidationCodes" ADD FOREIGN KEY ("user_id") REFERENCES "Users" ("id");
+ALTER TABLE "VerificationCodes" ADD FOREIGN KEY ("user_id") REFERENCES "Users" ("id");
 
 ALTER TABLE "PasswordResetCodes" ADD FOREIGN KEY ("user_id") REFERENCES "Users" ("id");
 

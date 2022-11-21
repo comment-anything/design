@@ -25,6 +25,11 @@ Added `client.ViewUsersReport`
 
 Added `server.Message`
 
+Changed `client.RequestValidation` to `client.RequestVerification`
+Changed `client.Validate` to `client.Verify`
+
+Added `client.ViewLogs.StartingAt` and `client.ViewLogs.EndingAt`
+
 Capitalized the first letter of all fields in `client` structs for golang exporting
 
 
@@ -34,6 +39,8 @@ Changed `server.Comment`, added field `userId`
 Changed `server.CommentVote` to `Server.CommentVoteDimension`
 Changed `server.UserProfile.DomainsModerating` type from `string` to `string[]`
 Changed `server.FeedbackRecord.type` to `server.FeedbackRecord.feedbackType`
+
+Added fields `bannedByUserID` and `bannedByUsername` to `client.BanRecord`
 
 
 # Caching Entities
@@ -48,10 +55,13 @@ Changed all instances of `user` to `user_id` ; in PostgresSQL, `user` is a reser
 
 Changed `DomainModerators` table to `DomainModeratorAssignments`, added "ID" and "is_deactivation" fields.
 Changed `GlobalModerators` table to `GlobalModeratorAssignments`, added "ID" and "is_deactivation" fields.
-Changed `Admins` table to `AdminAssignments`
+Changed `Admins` table to `AdminAssignments`, added field `assigned_at`
 Changed `VoteRecord` `VoteRecords`, changed `VoteRecord`.`commentId` to `comment_id`.
 Changed `Reports` to `CommentReports`, added fk to comment (oversight)
 Changed `CommentModerationActions.CommentId` to `CommentModerationActions.comment_id`.
 Changed `Logs.user` to `Logs.user_id`
+Added `Logs.at_time` field to track time log was made.
+
+Changed table `ValidationCodes` to `VerificationCodes`
 
 

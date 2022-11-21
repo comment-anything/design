@@ -95,6 +95,7 @@ Table "AdminAssignments" {
   "id" bigserial [pk]
   "assigned_to" bigint [ref: > Users.id, not null]
   "assigned_by" bigint [ref: > Users.id, not null]
+  "assigned_at" timestamptz [not null, default: `now()`]
   "is_deactivation" boolean [default: false]
   Indexes { 
    assigned_to
@@ -106,6 +107,7 @@ Table "Logs" {
   "user_id" bigint [ref: > Users.id]
   "ip" varchar
   "url" varchar
+  "at_time" timestamptz [not null, default: `now()`]
 }
 
 Table "CommentModerationActions" {
@@ -135,10 +137,10 @@ Table "CommentReports" {
   "comment" bigint [ref: > Comments.id, not null]
   "reason" varchar
   "action_taken" boolean
-  "time_created" timestamptz
+  "time_created" timestamptz [not null, default: `now()`]
 }
 
-Table "ValidationCodes" {
+Table "VerificationCodes" {
   "id" bigserial [pk]
   "user_id" bigint [ref: > Users.id]
   "verify_code" varchar
