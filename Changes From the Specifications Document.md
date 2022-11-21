@@ -23,3 +23,23 @@ Capitalized the first letter of all fields in `client` structs for golang export
 Changed `server.Comment`, added field `userId`
 Changed `server.CommentVote` to `Server.CommentVoteDimension`
 Changed `server.UserProfile.DomainsModerating` type from `string` to `string[]`
+Changed `server.FeedbackRecord.type` to `server.FeedbackRecord.feedbackType`
+
+
+# Caching Entities
+
+Changed `CachedComment`, added fields `id` and `content`
+Changed `Page.comments` from type `[]Cachedcomment` to `Map<int64, CachedComment>`
+
+
+# Database
+
+Changed all instances of `user` to `user_id` ; in PostgresSQL, `user` is a reserved keyword!
+
+Changed `DomainModerators` table to `DomainModeratorAssignments`, added "ID" and "is_deactivation" fields.
+Changed `GlobalModerators` table to `GlobalModeratorAssignments`, added "ID" and "is_deactivation" fields.
+Changed `Admins` table to `AdminAssignments`
+Changed `VoteRecord` `VoteRecords`, changed `VoteRecord`.`commentId` to `comment_id`.
+Changed `Reports` to `CommentReports`, added fk to comment (oversight)
+
+

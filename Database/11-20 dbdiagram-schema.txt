@@ -1,0 +1,162 @@
+Table "Users" {
+  "id" bigserial [pk]
+  "username" varchar [unique, not null]
+  "password" varchar [not null, note: 'Must be encrypted']
+  "email" varchar [unique, not null]
+  "is_verified" boolean
+  "created_at" timestamptz [not null, default: `now()`]
+  "last_login" timestamptz [not null, default: `now()`]
+  "profile_blurb" varchar
+  "banned" boolean
+
+Indexes {
+  username
+  email
+}
+}
+
+Table "DomainBans" {
+  "user_id" bigint [ref: > Users.id]
+  "banned_from" varchar
+  "banned_by" bigint
+  "banned_at" timestamptz [not null, default: `now()`]
+
+Indexes {
+  user_id
+  banned_by
+  banned_from
+}
+}
+
+Table "Comments" {
+  "id" bigserial [pk]
+  "path_id" bigint [ref: > Paths.id, not null]
+  "author" bigint [ref: > Users.id, not null]
+  "content" varchar [not null]
+  "created_at" timestamptz [not null, default: `now()`]
+  "parent" bigint [ ref: > Comments.id, default: 0]
+  "hidden" boolean [default: false]
+  "removed" boolean [default: false]
+
+Indexes {
+  author
+  path_id
+}
+}
+
+Table "VoteRecords" {
+  "comment_id" bigint [ref: > Comments.id]
+  "category" varchar
+  "user_id" bigint [ref: > Users.id]
+  "value" int8
+  Indexes {
+    (comment_id, category) [pk]
+  }
+}
+
+Table "Domains" {
+  "id" varchar [unique, pk, not null]
+}
+
+Table "Paths" {
+  "id" bigserial [pk]
+  "domain" varchar [ref: > Domains.id]
+  "path" varchar
+
+Indexes {
+  (domain, path) [unique]
+}
+}
+
+Table "DomainModeratorAssignments" {
+  "id" bigserial [pk]
+  "domain" varchar [not null]
+  "assigned_to" bigint [ref: > Users.id, not null]
+  "assigned_at" timestamptz [not null, default: `now()`]
+  "assigned_by" bigint [ref: > Users.id, not null]
+  "is_deactivation" boolean [not null, default: false]
+  Indexes {
+    assigned_to
+  }
+}
+
+Table "GlobalModeratorAssignments" {
+  "id" bigserial [pk]
+  "assigned_to" bigint [ ref: > Users.id, not null]
+  "assigned_at" timestamptz [not null, default: `now()`]
+  "assigned_by" bigint [ref: > Users.id, not null]
+  "is_deactivation" boolean [default: false]
+  Indexes {
+    assigned_to
+  }
+}
+
+Table "AdminAssignments" {
+  "id" bigserial [pk]
+  "assigned_to" bigint [ref: > Users.id, not null]
+  "assigned_by" bigint [ref: > Users.id, not null]
+  "is_deactivation" boolean [default: false]
+  Indexes { 
+   assigned_to
+  }
+}
+
+Table "Logs" {
+  "id" bigserial [pk]
+  "user" bigint [ref: > Users.id]
+  "ip" varchar
+  "url" varchar
+}
+
+Table "CommentModerationActions" {
+  "id" bigserial [pk]
+  "taken_by" bigint [ ref: > Users.id, not null]
+  "commentId" bigint [ ref: > Comments.id, not null]
+  "reason" varchar
+  "taken_on" timestamptz
+  "set_hidden_to" boolean
+  "set_removed_to" boolean 
+  "associated_report" bigint [ ref: > CommentReports.id]
+}
+
+Table "BanActions" {
+  "id" bigserial [pk]
+  "taken_by" bigint [ ref: > Users.id, not null]
+  "target_user" bigint [ ref: > Users.id, not null]
+  "reason" varchar
+  "taken_on" timestamptz
+  "domain" varchar [ ref: > Domains.id ]
+  "set_banned_to" boolean
+}
+
+Table "CommentReports" {
+  "id" bigserial [pk]
+  "reporting_user" bigint [ref: > Users.id, not null]
+  "comment" bigint [ref: > Comments.id, not null]
+  "reason" varchar
+  "action_taken" boolean
+  "time_created" timestamptz
+}
+
+Table "ValidationCodes" {
+  "id" bigserial [pk]
+  "user_id" bigint [ref: > Users.id]
+  "verify_code" varchar
+  "created_on" timestamptz [not null, default: `now()`]
+}
+
+Table "PasswordResetCodes" {
+  "id" bigserial [pk]
+  "user_id" bigint [ref: > Users.id]
+  "verify_code" varchar
+  "created_on" timestamptz [not null, default: `now()`]
+}
+
+Table "Feedbacks" {
+  "id" bigserial [pk]
+  "user_id" bigint [ref: > Users.id]
+  "type" varchar
+  "submitted_at" timestamptz [not null, default: `now()`]
+  "content" varchar
+  "hidden" boolean
+}
