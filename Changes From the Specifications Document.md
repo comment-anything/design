@@ -4,7 +4,9 @@ The purpose of this document is to record all changes we make from the design de
 
 
 
+# States
 
+Added `LoggedOut: ViewUserProfile`, `LoggedIn: Member: ViewUserProfile`, `LoggedIn: Moderator: ViewUserProfile`, `LoggedIn: Admin: ViewUserProfile`
 
 # Client-Server Communication Entities
 
@@ -14,6 +16,14 @@ Changed `client.ViewFeedback.type` to `client.Feedback.FeedbackType`
 Changed `client.getUserProfile` to `client.GetUserProfile`
 Changed `client.ViewBans.forDomains` from type `string` to type `string[]`
 Changed `client.ViewMods.forDomains` from type `string` to type `string[]`
+
+Added `client.AssignGlobalModerator`
+Added `client.AssignDomainModerator`
+
+Added `client.ViewDomainReport`
+Added `client.ViewUsersReport`
+
+Added `server.Message`
 
 Capitalized the first letter of all fields in `client` structs for golang exporting
 
