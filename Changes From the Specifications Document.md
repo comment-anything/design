@@ -51,5 +51,7 @@ Changed `GlobalModerators` table to `GlobalModeratorAssignments`, added "ID" and
 Changed `Admins` table to `AdminAssignments`
 Changed `VoteRecord` `VoteRecords`, changed `VoteRecord`.`commentId` to `comment_id`.
 Changed `Reports` to `CommentReports`, added fk to comment (oversight)
+Changed `CommentModerationActions.CommentId` to `CommentModerationActions.comment_id`.
+Changed `Logs.user` to `Logs.user_id`
 
 

@@ -103,7 +103,7 @@ Table "AdminAssignments" {
 
 Table "Logs" {
   "id" bigserial [pk]
-  "user" bigint [ref: > Users.id]
+  "user_id" bigint [ref: > Users.id]
   "ip" varchar
   "url" varchar
 }
@@ -111,7 +111,7 @@ Table "Logs" {
 Table "CommentModerationActions" {
   "id" bigserial [pk]
   "taken_by" bigint [ ref: > Users.id, not null]
-  "commentId" bigint [ ref: > Comments.id, not null]
+  "comment_id" bigint [ ref: > Comments.id, not null]
   "reason" varchar
   "taken_on" timestamptz
   "set_hidden_to" boolean
