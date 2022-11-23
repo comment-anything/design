@@ -35,13 +35,16 @@ Capitalized the first letter of all fields in `client` structs for golang export
 
 # Server-Client Communication Entities
 
-Changed `server.Comment`, added field `userId`
+Changed `server.Comment`, added field `UserId`
 Changed `server.CommentVote` to `Server.CommentVoteDimension`
 Changed `server.UserProfile.DomainsModerating` type from `string` to `string[]`
-Changed `server.FeedbackRecord.type` to `server.FeedbackRecord.feedbackType`
+Changed `server.FeedbackRecord.type` to `server.FeedbackRecord.FeedbackType`
 
-Added fields `bannedByUserID` and `bannedByUsername` to `client.BanRecord`
+Added fields `BannedByUserID`, `BannedByUsername`, `BannedAt`, `BanReason` to `client.BanRecord`
 
+Added `server.LogoutResponse`
+
+Capitalized all fields.
 
 # Caching Entities
 
